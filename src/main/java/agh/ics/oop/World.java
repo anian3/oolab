@@ -4,7 +4,13 @@ public class World {
 
     public static void main(String[] args) {
         System.out.println("Start");
-        run(conversion(args));
+        Animal Azor = new Animal();
+        System.out.println(Azor);
+        MoveDirection[] moveDirections = OptionsParser.parse(args);
+        for (MoveDirection direction : moveDirections) {
+            Azor.move(direction);
+        }
+        System.out.println(Azor);
         System.out.println("Stop");
     }
 
@@ -19,9 +25,10 @@ public class World {
             System.out.println(message);
         }
     }
-    public static Direction[] conversion(String[] args){
+
+    public static Direction[] conversion(String[] args) {
         Direction[] dir = new Direction[args.length];
-        for (int i=0; i<args.length; ++i) {
+        for (int i = 0; i < args.length; ++i) {
             dir[i] = switch (args[i]) {
                 case "f" -> Direction.FORWARD;
                 case "b" -> Direction.BACKWARD;
