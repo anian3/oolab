@@ -9,8 +9,9 @@ class AnimalTest {
     @Test
     void testMove(){
         //given:
-        Animal rat = new Animal();
-        Animal bunny = new Animal();
+        IWorldMap map = new RectangularMap(4, 4);
+        Animal rat = new Animal(map, new Vector2d(0,0));
+        Animal bunny = new Animal(map, new Vector2d(0,0));
 
         //when:
         rat.move(MoveDirection.RIGHT);

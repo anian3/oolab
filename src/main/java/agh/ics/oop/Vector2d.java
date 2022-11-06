@@ -10,7 +10,7 @@ public class Vector2d {
     }
 
     public String toString() {
-        return '(' + Integer.toString(x) + ", " + Integer.toString(y) + ')';
+        return '(' + x + ", " + y + ')';
     }
 
     public boolean precedes(Vector2d other) {
@@ -38,11 +38,8 @@ public class Vector2d {
     }
 
     public boolean equals(Object other) {
-        if (this == other)
-            return true;
-        if (!(other instanceof Vector2d))
+        if (!(other instanceof Vector2d that))
             return false;
-        Vector2d that = (Vector2d) other;
         return that.x == this.x && that.y == this.y;
     }
 

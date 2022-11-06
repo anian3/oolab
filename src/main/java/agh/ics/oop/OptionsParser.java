@@ -8,23 +8,13 @@ public class OptionsParser {
         int i = 0;
         for (String argument : arguments) {
             switch (argument) {
-                case "f", "forward" -> {
-                    moveDirections[i] = MoveDirection.FORWARD;
-                    i++;
-                }
-                case "b", "backward" -> {
-                    moveDirections[i] = MoveDirection.BACKWARD;
-                    i++;
-                }
-                case "r", "right" -> {
-                    moveDirections[i] = MoveDirection.RIGHT;
-                    i++;
-                }
-                case "l", "left" -> {
-                    moveDirections[i] = MoveDirection.LEFT;
-                    i++;
-                }
+                case "f", "forward" -> moveDirections[i] = MoveDirection.FORWARD;
+                case "b", "backward" ->  moveDirections[i] = MoveDirection.BACKWARD;
+                case "r", "right" ->  moveDirections[i] = MoveDirection.RIGHT;
+                case "l", "left" ->  moveDirections[i] = MoveDirection.LEFT;
+                default -> i--;
             }
+            i++;
         }
         return Arrays.copyOfRange(moveDirections, 0, i);
     }
