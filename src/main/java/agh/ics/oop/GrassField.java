@@ -3,26 +3,27 @@ package agh.ics.oop;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GrassField extends AbstractWorldMap {
 
-    private ArrayList<Grass> grasses = new ArrayList<>();
+    private Map<Vector2d, Grass> grasses = new HashMap<>();
     private final int grassCount;
 
     private void createGrasses() {
         int max = (int) Math.sqrt(grassCount * 10);
+        ArrayList<Vector2d> grassPositions = new ArrayList<>();
         for (int i = 0; i < max; i++) {
             for (int j = 0; j < max; j++) {
-                grasses.add(new Grass(new Vector2d(i, j)));
+                grassPositions.add(new Vector2d(i, j));
             }
         }
-        Collections.shuffle(grasses);
-        ArrayList<Grass> newGrasses = new ArrayList<>();
+        Collections.shuffle(grassPositions);
         for (int i = 0; i < grassCount; i++) {
-            newGrasses.add(grasses.get(i));
+            grasses.put(grassPositions.get(i), new Grass(grassPositions.get(i)));
         }
-        grasses = newGrasses;
     }
 
     public GrassField(int grassCount) {
@@ -39,56 +40,40 @@ public class GrassField extends AbstractWorldMap {
         if (isAnAnimalAt(position)) {
             return true;
         }
-        for (Grass grass : grasses) {
-            if (grass.getPosition().equals(position)) {
-                return true;
-            }
-        }
-        return false;
+        return grasses.get(position) != null;
     }
 
     public Object objectAt(Vector2d position) {
         if (animalAt(position) != null) {
             return animalAt(position);
         }
-        for (Grass grass : grasses) {
-            if (grass.getPosition().equals(position)) {
-                return grass;
-            }
-        }
-        return null;
+        return grasses.get(position);
     }
 
     public Vector2d findMapStart() {
         Vector2d mapStart = new Vector2d((int) Math.sqrt(grassCount * 10), (int) Math.sqrt(grassCount * 10));
-        if (animals.size() > 0) {
-            mapStart = animals.get(0).position;
-            for (int i = 1; i < animals.size(); i++) {
-                mapStart = mapStart.lowerLeft(animals.get(i).position);
-            }
-            if (mapStart.precedes(new Vector2d(0, 0))) {
-                return mapStart;
-            }
+        for (Vector2d key: animals.keySet()){
+            mapStart = mapStart.lowerLeft(key);
         }
-        for (Grass grass : grasses) {
-            mapStart = mapStart.lowerLeft(grass.getPosition());
+        if (mapStart.precedes(new Vector2d(0,0))) {
+            return mapStart;
+        }
+        for (Vector2d key: grasses.keySet()){
+            mapStart = mapStart.lowerLeft(key);
         }
         return mapStart;
     }
 
     public Vector2d findMapEnd() {
         Vector2d mapEnd = new Vector2d(0, 0);
-        if (animals.size() > 0) {
-            mapEnd = animals.get(0).position;
-            for (int i = 1; i < animals.size(); i++) {
-                mapEnd = mapEnd.upperRight(animals.get(i).position);
-            }
-            if (mapEnd.follows(new Vector2d((int) Math.sqrt(grassCount * 10), (int) Math.sqrt(grassCount * 10)))) {
-                return mapEnd;
-            }
+        for (Vector2d key: animals.keySet()){
+            mapEnd = mapEnd.upperRight(key);
         }
-        for (Grass grass : grasses) {
-            mapEnd = mapEnd.upperRight(grass.getPosition());
+        if (mapEnd.follows(new Vector2d((int) Math.sqrt(grassCount * 10), (int) Math.sqrt(grassCount * 10)))) {
+            return mapEnd;
+        }
+        for (Vector2d key: grasses.keySet()){
+            mapEnd = mapEnd.upperRight(key);
         }
         return mapEnd;
     }

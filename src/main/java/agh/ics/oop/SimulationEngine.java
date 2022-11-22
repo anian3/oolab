@@ -5,23 +5,28 @@ import java.util.ArrayList;
 public class SimulationEngine implements IEngine {
 
     private MoveDirection[] directions;
-    private ArrayList<Animal> animals = new ArrayList<>();
+
+    private final IWorldMap map;
+    
+    private ArrayList<Vector2d> positions = new ArrayList<>();
 
 
     public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] positions) {
         this.directions = directions;
+        this.map = map;
         for (Vector2d position: positions){
             Animal currentAnimal = new Animal(map, position);
-            if (map.place(currentAnimal)){
-                animals.add(currentAnimal);
-            }
+            if(currentAnimal.map != null) {this.positions.add(position);}
         }
     }
 
     public void run() {
-        int animalsCount = animals.size();
+        int animalsCount = positions.size();
+        Animal animal;
         for (int i = 0; i < directions.length; i++) {
-            animals.get(i % animalsCount).move(directions[i]);
+            animal = map.animals.get(positions.get(i % animalsCount));
+            animal.move(directions[i]);
+            positions.set(i % animalsCount, animal.position);
         }
     }
 }

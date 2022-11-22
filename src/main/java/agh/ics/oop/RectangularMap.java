@@ -1,6 +1,5 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
 
 public class RectangularMap extends AbstractWorldMap {
 
@@ -9,7 +8,6 @@ public class RectangularMap extends AbstractWorldMap {
 
     public RectangularMap(int width, int height) {
         if (width > 0 && height > 0) {
-            animals = new ArrayList<>();
             mapEnd = new Vector2d(width-1, height-1);
         }
     }

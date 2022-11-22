@@ -1,44 +1,41 @@
 package agh.ics.oop;
-import java.util.ArrayList;
 
 
-public abstract class AbstractWorldMap implements IWorldMap{
 
-    protected ArrayList<Animal> animals = new ArrayList<>();
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
-    public boolean place(Animal animal) {
+    MapVisualiser mapVisualiser = new MapVisualiser(this);
+
+    public boolean place(Animal animal) throws IllegalArgumentException{
         if (canMoveTo(animal.position)) {
-            animals.add(animal);
+            animals.put(animal.position, animal);
             return true;
         }
-        return false;
+        else {
+            throw new IllegalArgumentException("The animal can't be placed at " + animal.position + ".");
+        }
     }
 
-    public boolean isAnAnimalAt(Vector2d position){
-        for (Animal animal : animals) {
-            if (animal.isAt(position)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean isAnAnimalAt(Vector2d position) {
+        return animals.get(position) != null;
     }
 
-    public Object animalAt(Vector2d position){
-        for (Animal animal : animals) {
-            if (animal.isAt(position)) {
-                return animal;
-            }
-        }
-        return null;
+    public Object animalAt(Vector2d position) {
+        return animals.get(position);
     }
 
     public abstract Vector2d findMapStart();
+
     public abstract Vector2d findMapEnd();
 
-    public String toString(){
+    public String toString() {
         Vector2d mapStart = findMapStart();
         Vector2d mapEnd = findMapEnd();
-        MapVisualiser map = new MapVisualiser(this);
-        return map.draw(mapStart, mapEnd);
+        return mapVisualiser.draw(mapStart, mapEnd);
+    }
+
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+        Animal animal = animals.remove(oldPosition);
+        animals.put(newPosition, animal);
     }
 }

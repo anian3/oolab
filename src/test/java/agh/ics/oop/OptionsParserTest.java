@@ -10,13 +10,16 @@ class OptionsParserTest {
     void testParse() {
         //given:
         String[] arguments = {"f", "forward", "backward", "r", "rat"};
+        String expectedMessage = "\"" + arguments[4] + "\" is not legal move specification. You can use one of the following: f, b, r, l.";
 
         //when
-        MoveDirection[] result = OptionsParser.parse(arguments);
-
-        //then:
-        MoveDirection[] expectedResult = new MoveDirection[]{MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.RIGHT};
-        assertArrayEquals(result, expectedResult);
+        try {
+            MoveDirection[] result = OptionsParser.parse(arguments);
+        } catch(IllegalArgumentException exception){
+            String actualMessage = exception.getMessage();
+            //then:
+            assertEquals(expectedMessage, actualMessage);
+        }
     }
 
 }
