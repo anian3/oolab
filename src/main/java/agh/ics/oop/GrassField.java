@@ -9,8 +9,9 @@ import java.util.Map;
 
 public class GrassField extends AbstractWorldMap {
 
-    private Map<Vector2d, Grass> grasses = new HashMap<>();
+    private final Map<Vector2d, Grass> grasses = new HashMap<>();
     private final int grassCount;
+
 
     private void createGrasses() {
         int max = (int) Math.sqrt(grassCount * 10);
@@ -23,6 +24,7 @@ public class GrassField extends AbstractWorldMap {
         Collections.shuffle(grassPositions);
         for (int i = 0; i < grassCount; i++) {
             grasses.put(grassPositions.get(i), new Grass(grassPositions.get(i)));
+            this.mapBoundary.positionChanged(null, grassPositions.get(i));
         }
     }
 
@@ -51,30 +53,10 @@ public class GrassField extends AbstractWorldMap {
     }
 
     public Vector2d findMapStart() {
-        Vector2d mapStart = new Vector2d((int) Math.sqrt(grassCount * 10), (int) Math.sqrt(grassCount * 10));
-        for (Vector2d key: animals.keySet()){
-            mapStart = mapStart.lowerLeft(key);
-        }
-        if (mapStart.precedes(new Vector2d(0,0))) {
-            return mapStart;
-        }
-        for (Vector2d key: grasses.keySet()){
-            mapStart = mapStart.lowerLeft(key);
-        }
-        return mapStart;
+        return this.mapBoundary.getMapStart();
     }
 
     public Vector2d findMapEnd() {
-        Vector2d mapEnd = new Vector2d(0, 0);
-        for (Vector2d key: animals.keySet()){
-            mapEnd = mapEnd.upperRight(key);
-        }
-        if (mapEnd.follows(new Vector2d((int) Math.sqrt(grassCount * 10), (int) Math.sqrt(grassCount * 10)))) {
-            return mapEnd;
-        }
-        for (Vector2d key: grasses.keySet()){
-            mapEnd = mapEnd.upperRight(key);
-        }
-        return mapEnd;
+        return this.mapBoundary.getMapEnd();
     }
 }

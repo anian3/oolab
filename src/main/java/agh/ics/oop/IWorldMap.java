@@ -18,6 +18,7 @@ public interface IWorldMap {
      *
      */
     Map<Vector2d, Animal> animals = new HashMap<>();
+    MapBoundary mapBoundary = new MapBoundary();
     boolean canMoveTo(Vector2d position);
 
     /**
@@ -45,4 +46,8 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
+
+    Vector2d findMapStart();
+
+    Vector2d findMapEnd();
 }

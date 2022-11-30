@@ -17,6 +17,10 @@ public class Animal {
             this.map = null;
         }
         addObserver((IPositionChangeObserver) map);
+        if (this.map.getClass() == GrassField.class){
+            addObserver(this.map.mapBoundary);
+            positionChanged(null, this.position);
+        }
     }
 
     public String toString(){
