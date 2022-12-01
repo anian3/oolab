@@ -16,7 +16,7 @@ public class App extends Application {
         try {
             MoveDirection[] directions = new OptionsParser().parse(getParameters().getRaw().toArray(new String[0]));
             IWorldMap map = new GrassField(10);
-            Vector2d[] positions = {new Vector2d(-2, 1), new Vector2d(3, 7), new Vector2d(-1,1)};
+            Vector2d[] positions = {new Vector2d(-2, 1), new Vector2d(3, 7), new Vector2d(-2,10)};
             IEngine engine = new SimulationEngine(directions, map, positions);
             engine.run();
             System.out.println(map);
