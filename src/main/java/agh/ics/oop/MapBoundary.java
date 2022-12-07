@@ -1,13 +1,12 @@
 package agh.ics.oop;
 
-import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class MapBoundary implements IPositionChangeObserver{
 
-    private SortedSet<Vector2d> xPositions = new TreeSet<>(Comparator.comparingInt(position -> position.x));
-    private SortedSet<Vector2d> yPositions = new TreeSet<>(Comparator.comparingInt(position -> position.y));
+    private SortedSet<Vector2d> xPositions = new TreeSet<>(Vector2d::compareX);
+    private SortedSet<Vector2d> yPositions = new TreeSet<>(Vector2d::compareY);
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {

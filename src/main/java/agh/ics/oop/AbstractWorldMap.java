@@ -7,12 +7,12 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     MapVisualiser mapVisualiser = new MapVisualiser(this);
 
     public boolean place(Animal animal) throws IllegalArgumentException{
-        if (canMoveTo(animal.position)) {
-            animals.put(animal.position, animal);
+        if (canMoveTo(animal.getPosition())) {
+            animals.put(animal.getPosition(), animal);
             return true;
         }
         else {
-            throw new IllegalArgumentException("The animal can't be placed at " + animal.position + ".");
+            throw new IllegalArgumentException("The animal can't be placed at " + animal.getPosition() + ".");
         }
     }
 
@@ -20,7 +20,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         return animals.get(position) != null;
     }
 
-    public Object animalAt(Vector2d position) {
+    public IMapElement animalAt(Vector2d position) {
         return animals.get(position);
     }
 

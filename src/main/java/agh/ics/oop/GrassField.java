@@ -45,7 +45,7 @@ public class GrassField extends AbstractWorldMap {
         return grasses.get(position) != null;
     }
 
-    public Object objectAt(Vector2d position) {
+    public IMapElement objectAt(Vector2d position) {
         if (animalAt(position) != null) {
             return animalAt(position);
         }
@@ -53,7 +53,9 @@ public class GrassField extends AbstractWorldMap {
     }
 
     public Vector2d findMapStart() {
-        return this.mapBoundary.getMapStart();
+        Vector2d MapStart = mapBoundary.getMapStart();
+//        Animal animal;
+        return MapStart;
     }
 
     public Vector2d findMapEnd() {

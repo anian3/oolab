@@ -1,13 +1,19 @@
 package agh.ics.oop;
 
 
+import java.io.File;
 import java.util.ArrayList;
 
-public class Animal {
+public class Animal implements IMapElement{
     private MapDirection direction;
-    protected Vector2d position;
+    private Vector2d position;
     protected IWorldMap map;
     protected ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
+
+    @Override
+    public Vector2d getPosition() {
+        return position;
+    }
 
     public Animal(IWorldMap map, Vector2d InitialPosition) {
         direction = MapDirection.NORTH;
@@ -24,12 +30,7 @@ public class Animal {
     }
 
     public String toString(){
-        return switch (this.direction){
-            case NORTH -> "N";
-            case EAST -> "E";
-            case SOUTH -> "S";
-            case WEST -> "W";
-        };
+        return "Z" + position;
     }
 
     public boolean isAt(Vector2d position){
@@ -71,6 +72,15 @@ public class Animal {
         for (IPositionChangeObserver observer: observers){
             observer.positionChanged(oldPosition, newPosition);
         }
+    }
+
+    public File getResources(){
+        return switch(direction){
+            case NORTH -> new File("src/main/resources/up.png");
+            case SOUTH -> new File("src/main/resources/down.png");
+            case EAST -> new File("src/main/resources/right.png");
+            case WEST -> new File("src/main/resources/left.png");
+        };
     }
 
 

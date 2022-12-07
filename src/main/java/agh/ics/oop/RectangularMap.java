@@ -21,7 +21,7 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
 
-    public Object objectAt(Vector2d position) {
+    public IMapElement objectAt(Vector2d position) {
         return animalAt(position);
     }
 
